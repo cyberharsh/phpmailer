@@ -1,13 +1,27 @@
-FROM vulhub/php:5.6-apache
+FROM debian:jessie
 
-MAINTAINER phithon <root@leavesongs.com>
-
-COPY www/* /var/www/html/
 ADD flagA /etc/
-RUN set -ex \
-    && apt-get update \
-    && apt-get install -y --no-install-recommends git \
-    && cd /var/www/html/ \
-    && curl -sSL https://getcomposer.org/installer | php \
-    && php composer.phar install \
-    && rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    apache2 \
+    php5 \
+    python \
+    sendmail \
+    && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+COPY www /www
+COPY src /www/vulnerable/
+
+RUN chmod 777 -R /www
+
+COPY virtual-host /etc/apache2/sites-enabled/000-default.conf
+
+EXPOSE 80
+
+COPY main.sh /
+ENTRYPOINT ["/main.sh"]
+CMD ["default"]
