@@ -16,7 +16,7 @@ And it will spawn a vulnerable web application on your host on `8080` port
 
 ![vulnerable](vulnerable.png)
 
-### Exploit
+### Exploit additional_headers
 
 To exploit this target just run:
 
@@ -36,8 +36,8 @@ After the exploitation, a file called backdoor.php will be stored on the root fo
     [+] Backdoor.php found on remote system
     [+] Running whoami
     www-data
-    RemoteShell> 
-    
+    RemoteShell>
+
 And that's it, you have your shell. There is another exploit, which ilustrates another use case.
 
     ./deface.sh localhost:8080
@@ -152,7 +152,7 @@ Based on this information, and the hability to control at least one of the other
 
  * Control `$additional_parameters` and another `mail()` parameter
  * Know a **writeable** diretory on target host which is accessible via the target system and user (www-data for example). Usually this directory can be anything bellow `webroot` (aka /var/www/html for another systems, /www for this example)
- * Any PHP payload that you want, we are using a simple `system()` payload in this example, with a spice of base64 and some special characters `|` to make it easier to parse. 
+ * Any PHP payload that you want, we are using a simple `system()` payload in this example, with a spice of base64 and some special characters `|` to make it easier to parse.
  * Just assembly everything together !
 
 Remember that the `-X` option will write the log file, that will contain among the log information your PHP payload, in the directory that you will inform. An example of a vulnerable PHP code:
